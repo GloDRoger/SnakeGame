@@ -1,4 +1,5 @@
 <template>
+  <h3>分數：{{ (snakeArr.length - 4) * 10 }}</h3>
   <main id="main" contenteditable="true">
     <div id="snake">
       <span
@@ -54,7 +55,6 @@ export default defineComponent({
       controler();
       clearInterval(t);
       t = setInterval(() => {
-        console.log("run");
         move(direction.value);
       }, speed.value);
     }
@@ -69,8 +69,6 @@ export default defineComponent({
       const input = document.getElementById("input");
       input.focus();
       input.addEventListener("keydown", (e) => {
-        // console.log(e);
-        // console.log(e.key);
         if (e.key === "ArrowDown" && direction.value !== "top") {
           direction.value = "down";
           return;
@@ -142,6 +140,17 @@ export default defineComponent({
           body[i].style.left = preX + "px";
           body[i].style.top = preY + "px";
         }
+      }
+      const bodyXY = [...body].map((item) => {
+        return { x: item.offsetLeft, y: item.offsetTop };
+      });
+      bodyXY.shift();
+      const isBody = bodyXY.some((item) => {
+        return item.x === body[0].offsetLeft && item.y === body[0].offsetTop;
+      });
+      if (isBody) {
+        stop();
+        alert("GAME🐍OVER");
       }
     }
 
