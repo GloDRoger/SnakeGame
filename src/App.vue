@@ -88,6 +88,50 @@ export default defineComponent({
       });
     }
 
+    //监听手势
+    function touchHandler() {
+      const body = document.body;
+      const eventData = [];
+      body.addEventListener("touchend", () => {
+        const start = eventData[0];
+        const end = eventData[eventData.length - 1];
+
+        const X = start.clientX - end.clientX;
+        const Y = start.clientY - end.clientY;
+
+        if (end.timeStamp - start.timeStamp <= 500) {
+          eventData.length = 0
+          if (Math.abs(X) > Math.abs(Y)) {
+            if (X > 0 && direction.value !== "right") {
+              direction.value = "left";
+              return;
+            }
+            if (X < 0 && direction.value !== "left") {
+              direction.value = "right";
+              return;
+            }
+          }
+          if (Math.abs(X) < Math.abs(Y)) {
+            if (Y > 0 && direction.value !== "down") {
+              direction.value = "top";
+              return;
+            }
+            if (Y < 0 && direction.value !== "top") {
+              direction.value = "down";
+              return;
+            }
+          }
+        }
+      });
+      body.addEventListener("touchmove", (e) => {
+        eventData.push({
+          timeStamp: Math.floor(e.timeStamp),
+          clientX: Math.floor(e.changedTouches[0].clientX),
+          clientY: Math.floor(e.changedTouches[0].clientY),
+        });
+      });
+    }
+
     //移动
     function move(direction) {
       const body = document.querySelectorAll(".item");
@@ -189,11 +233,12 @@ export default defineComponent({
 
     async function reStart() {
       direction.value = "right";
-      speed.value = 500
+      speed.value = 500;
       snakeInit();
       await nextTick();
       positionInit();
       bodyClickListen();
+      touchHandler();
       gameStart();
     }
 
