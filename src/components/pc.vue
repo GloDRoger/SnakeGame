@@ -1,5 +1,7 @@
 <template>
-  <h3>分數：{{ (snakeArr.length - 4) * 10 }}</h3>
+  <h3>
+    分數：<span>{{ (snakeArr.length - 4) * 10 }}</span>
+  </h3>
   <main id="main" contenteditable="true">
     <div id="snake">
       <span
@@ -22,7 +24,6 @@ export default defineComponent({
   setup() {
     const snakeArr = ref([]);
     const speed = ref(500);
-    console.log('this is pc')
 
     //初始化长度
     function snakeInit() {
@@ -66,24 +67,30 @@ export default defineComponent({
 
     //监听键盘事件
     const direction = ref("right");
+    const isMoved = ref(false)
     function controler() {
       const input = document.getElementById("input");
       input.focus();
-      input.addEventListener("keydown", (e) => {
+      input.addEventListener("keyup", (e) => {
+        if(isMoved.value)return
         if (e.key === "ArrowDown" && direction.value !== "top") {
           direction.value = "down";
+          isMoved.value = true
           return;
         }
         if (e.key === "ArrowLeft" && direction.value !== "right") {
           direction.value = "left";
+          isMoved.value = true
           return;
         }
         if (e.key === "ArrowUp" && direction.value !== "down") {
           direction.value = "top";
+          isMoved.value = true
           return;
         }
         if (e.key === "ArrowRight" && direction.value !== "left") {
           direction.value = "right";
+          isMoved.value = true
           return;
         }
       });
@@ -153,6 +160,7 @@ export default defineComponent({
         stop();
         alert("GAME🐍OVER");
       }
+      isMoved.value = false
     }
 
     //检查game over
@@ -212,10 +220,20 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+h3 {
+  text-align: center;
+  width: 100%;
+  color: #0096ff;
+  span {
+    color: #c21010;
+  }
+}
 main {
+  margin: 0 auto;
   width: 500px;
   height: 500px;
-  border: 2px solid gray;
+  border: 2px solid #0096ff;
+  background-color: #eaf6f6;
   position: relative;
   overflow: hidden;
 }
@@ -224,15 +242,15 @@ main {
     display: inline-block;
     width: 10px;
     height: 10px;
-    background: #858585;
-    border: 1px solid #7c7c7c;
+    background: #66bfbf;
+    border: 1px solid #3c9090;
     position: absolute;
     top: -20px;
     box-sizing: border-box;
   }
   .head {
-    background: red;
-    border-color: red;
+    background: #ff0063;
+    border-color: #ff0063;
   }
   .food {
     display: inline-block;
@@ -246,7 +264,13 @@ main {
   }
 }
 button {
-  margin-top: 20px;
+  height: 40px;
+  width: 100px;
+  background-color: #0096ff;
+  color: #fff;
+  display: block;
+  margin: 20px auto;
+  border: none;
 }
 #input {
   top: -100px;

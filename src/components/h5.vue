@@ -1,5 +1,5 @@
 <template>
-  <h3>分數：{{ (snakeArr.length - 4) * 10 }}</h3>
+  <h3>分數：<span>{{ (snakeArr.length - 4) * 10 }}</span></h3>
   <main id="main" contenteditable="true">
     <div id="snake">
       <span
@@ -21,7 +21,6 @@ export default defineComponent({
   setup() {
     const snakeArr = ref([]);
     const speed = ref(500);
-    console.log('this is h5')
 
     //初始化长度
     function snakeInit() {
@@ -221,27 +220,36 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+h3{
+    text-align: center;
+    width: 100%;
+    color: #0096FF;
+    span{
+        color: #C21010;
+    }
+}
 main {
-  width: 500px;
-  height: 500px;
-  border: 2px solid gray;
+  width: 100%;
+  height: calc(100vh - 150px);
   position: relative;
   overflow: hidden;
+  border: 2px solid #0096FF;
+  background-color: #EAF6F6;
 }
 #snake {
   .item {
     display: inline-block;
     width: 10px;
     height: 10px;
-    background: #858585;
-    border: 1px solid #7c7c7c;
+    background: #66BFBF;
+    border: 1px solid hsl(180, 41%, 40%);
     position: absolute;
     top: -20px;
     box-sizing: border-box;
   }
   .head {
-    background: red;
-    border-color: red;
+    background: #FF0063;
+    border-color: #FF0063;
   }
   .food {
     display: inline-block;
@@ -255,10 +263,12 @@ main {
   }
 }
 button {
-  margin-top: 20px;
-}
-#input {
-  top: -100px;
-  position: absolute;
+  height: 40px;
+  width: 100px;
+  background-color: #0096FF;
+  color: #fff;
+  display: block;
+  margin: 5px auto;
+  border: none;
 }
 </style>
