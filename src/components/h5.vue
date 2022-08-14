@@ -30,6 +30,7 @@ export default defineComponent({
     //初始化位置
     function positionInit() {
       const body = document.querySelectorAll(".item");
+      
       let top = Math.ceil(Math.random() * 49) * 10;
       let left = Math.ceil(Math.random() * 49) * 10;
       if (left < 30) left = 30;
@@ -230,7 +231,7 @@ h3{
 }
 main {
   width: 100%;
-  height: calc(100vh - 150px);
+  height: 600PX;
   position: relative;
   overflow: hidden;
   border: 2px solid #0096FF;
